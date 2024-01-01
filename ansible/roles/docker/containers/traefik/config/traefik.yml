@@ -1,0 +1,45 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false # true by default
+
+api:
+  dashboard: true # true by default
+# Entry Points configuration
+# ---
+entryPoints:
+  web:
+    address: :80
+    http:
+      middlewares:
+        - secureHeaders@file
+
+  websecure:
+    address: :443
+    http:
+      middlewares:
+        - secureHeaders@file
+
+  metrics:
+      address: ":8082"
+ 
+# Certificates configuration
+# ---
+ 
+# Provider Configuration
+# ---
+
+providers:
+  docker: {}
+  file:
+    filename: /traefik_data/dynamic.yml
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    entryPoint: metrics
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0

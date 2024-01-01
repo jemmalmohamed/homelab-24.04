@@ -1,0 +1,2 @@
+- commands : create porainer password : 
+   docker run --rm httpd:2.4-alpine htpasswd -nbB admin YourPassword | cut -d ":" -f 2 | sed 's/\$/\$\$/g'

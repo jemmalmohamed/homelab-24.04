@@ -1,0 +1,33 @@
+# Dynamic configuration
+http:
+  middlewares:
+    secureHeaders:
+      headers:
+        forceSTSHeader: false
+        stsIncludeSubdomains: false
+        # stsPreload: true
+        # stsSeconds: 31536000
+        # sslRedirect: true
+        framedeny: true
+        # referrerPolicy: same-origin
+        accessControlMaxAge: 12
+        addVaryHeader: true
+        # customFrameOptionsValue: SAMEORIGIN
+        # browserXssFilter: true
+        # contentTypeNosniff: true
+        contentSecurityPolicy:  frame-ancestors 'self' localhost:4200
+        isDevelopment: true
+        accessControlAllowCredentials: true
+        accessControlAllowMethods:
+          - OPTIONS
+          - POST
+          - GET
+          - PUT
+          - DELETE
+        accessControlAllowHeaders:
+          - "Content-Type"
+          - "Cache-control"
+        accessControlAllowOriginList:
+          - http://localhost:4200
+
+  

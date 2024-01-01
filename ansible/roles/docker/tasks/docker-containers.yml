@@ -1,0 +1,51 @@
+---
+- name: run traefik docker-compose
+  docker_compose:
+    project_src: roles/docker/containers/traefik
+    state: present
+    
+- name: run portainer docker-compose
+  docker_compose:
+    project_src: roles/docker/containers/portainer
+    state: present
+
+- name: run prometheus-grafana docker-compose
+  docker_compose:
+    project_src: roles/docker/containers/prometheus-grafana
+    state: present
+
+- name: run exporters docker-compose
+  docker_compose:
+    project_src: roles/docker/containers/prometheus-grafana/exporters
+    state: present
+
+- name: run dashy docker-compose
+  docker_compose:
+    project_src: roles/docker/containers/dashy
+    state: present
+    register: docker_compose_dashy_output
+
+- name: Restart Dashy if changed
+  docker_compose:
+    project_src: roles/docker/containers/dashy
+    state: present
+    restarted: yes
+  when: docker_compose_dashy_output.changed
+
+# - name: run authelia docker-compose
+#   docker_compose:
+#     project_src: vps/authelia
+#     state: present
+
+# - name: run dashy docker-compose
+#   docker_compose:
+#     project_src: vps/dashy
+#     state: present
+#     register: docker_compose_output
+
+
+
+# - name: run portainer docker-compose
+#   docker_compose:
+#     project_src: vps/portainer
+#     state: present

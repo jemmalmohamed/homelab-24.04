@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    restart: always
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+   
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/etc/traefik
+      - ./config/data:/traefik_data
+      - traefik-ssl-certs:/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks :
+      - proxy 
+   
+volumes:
+  traefik-ssl-certs:
+    driver: local
+
+networks: 
+    proxy:
+        external: true

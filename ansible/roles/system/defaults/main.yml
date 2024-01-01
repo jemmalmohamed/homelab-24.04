@@ -1,0 +1,10 @@
+username: jemmal
+password: admin
+packages:
+  - vim
+  - git
+  - nano
+  - fail2ban
+  - python3-pip
+
+shell: /bin/bash

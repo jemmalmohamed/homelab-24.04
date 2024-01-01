@@ -1,0 +1,65 @@
+---
+appConfig:
+  theme: Nord-Forst
+  language: en
+
+pageInfo:
+  title: Jemmal DEV LAB
+  footerText: ""
+
+sections:
+  - name: Docker
+    icon: docker-moby.svg
+    items:
+      - title: Portainer
+        icon: portainer.svg
+        url: http://portainer.localhost
+        target: newtab
+
+  - name: Proxy
+    icon: traefik.svg
+    items:
+      - title: Traefik
+        icon: traefik.svg
+        url: http://traefik.localhost
+        target: newtab
+
+  - name: Monitoring
+    icon:
+    items:
+      - title: Grafana
+        icon: grafana.svg
+        url: http://grafana.localhost
+        target: newtab
+      - title: Prometheus
+        icon: prometheus.svg
+        url: http://prometheus.localhost
+        target: newtab
+
+  - name: CI / CD
+    icon: ci-cd.png
+    items:
+      - title: Jenkins
+        icon: jenkins.svg
+        url: http://jenkins.localhost
+        target: newtab
+
+  - name: ANCFCC
+    icon: logo-ancfcc.png
+    items:
+      - title: PVA
+        icon: logo-ancfcc.png
+        url: http://pva.localhost
+        target: newtab
+
+      - title: Keycloak
+        icon: keycloak.svg
+        url: http://kc-pva.localhost
+        target: newtab
+  - name: Authelia
+    icon: authelia.svg
+    items:
+      - title: Logout
+        icon: logout.svg
+        url: http://auth.localhost/logout
+  
