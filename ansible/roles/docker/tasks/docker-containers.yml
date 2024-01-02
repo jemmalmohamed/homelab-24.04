@@ -23,7 +23,7 @@
   docker_compose:
     project_src: roles/docker/containers/dashy
     state: present
-    register: docker_compose_dashy_output
+  register: docker_compose_dashy_output
 
 - name: Restart Dashy if changed
   docker_compose:
@@ -32,20 +32,3 @@
     restarted: yes
   when: docker_compose_dashy_output.changed
 
-# - name: run authelia docker-compose
-#   docker_compose:
-#     project_src: vps/authelia
-#     state: present
-
-# - name: run dashy docker-compose
-#   docker_compose:
-#     project_src: vps/dashy
-#     state: present
-#     register: docker_compose_output
-
-
-
-# - name: run portainer docker-compose
-#   docker_compose:
-#     project_src: vps/portainer
-#     state: present
