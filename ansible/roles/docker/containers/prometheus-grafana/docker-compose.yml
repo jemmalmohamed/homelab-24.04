@@ -1,0 +1,50 @@
+version: '3'
+ 
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    expose:
+      - 9090
+    volumes:
+      - ./config:/config
+      - prometheus-data:/prometheus
+    restart: always
+    networks:
+      - proxy
+    command:
+      - "--config.file=/config/prometheus.yml"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.entrypoints=web"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.localhost`)"
+       
+   
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana 
+    expose:
+      - 3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources/
+      - ./provisioning/dashboards:/etc/grafana/provisioning/dashboards/
+    restart: always
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.localhost`)"
+     
+
+networks:
+   proxy:
+      external: true
