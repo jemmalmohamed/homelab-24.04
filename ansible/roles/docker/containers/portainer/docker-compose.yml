@@ -12,13 +12,14 @@ services:
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data_dev:/data
-    networks:
-      - proxy
+      - portainer_data:/data
     restart: always
- 
+    networks:
+      - proxy 
+   
 networks: 
     proxy:
-        external: true
+      external: true
+      
 volumes:
-    portainer_data_dev:
+    portainer_data:

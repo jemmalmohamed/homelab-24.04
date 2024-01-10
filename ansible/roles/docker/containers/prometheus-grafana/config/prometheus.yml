@@ -24,7 +24,7 @@ scrape_configs:
   # Example job for cadvisor
   - job_name: "cadvisor"
     static_configs:
-      - targets: ["cadvisor:8080"]
+      - targets: ["cadvisor:9092"]
 
   - job_name: "traefik"
     static_configs:

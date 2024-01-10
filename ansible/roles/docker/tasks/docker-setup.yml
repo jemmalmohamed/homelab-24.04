@@ -45,9 +45,22 @@
   docker_network:
     name: "{{ network }}"
     state: present
+    driver: bridge
+    ipam_config:
+      - subnet: "{{ subnet }}"
 
-# - name: Restart Docker service to apply changes
-#   service:
-#     name: docker
-#     state: restarted
-#     enabled: yes
+- name: Modify Docker service file
+  lineinfile:
+    path: /lib/systemd/system/docker.service
+    regexp: "^ExecStart="
+    line: "ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Restart Docker service
+  service:
+    name: docker
+    state: restarted
+    enabled: yes

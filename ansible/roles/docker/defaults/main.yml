@@ -1,1 +1,2 @@
 network: proxy
+subnet: "172.20.0.0/16"

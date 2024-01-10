@@ -6,5 +6,7 @@ packages:
   - nano
   - fail2ban
   - python3-pip
+  - openjdk-17-jdk
+  - maven
 
 shell: /bin/bash

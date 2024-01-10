@@ -52,14 +52,19 @@ sections:
         url: http://pva.localhost
         target: newtab
 
+      - title: GEOSERVER
+        icon: geoserver.png
+        url: http://geoserver.localhost/geoserver
+        target: newtab
+
       - title: Keycloak
         icon: keycloak.svg
         url: http://kc-pva.localhost
         target: newtab
+
   - name: Authelia
     icon: authelia.svg
     items:
       - title: Logout
         icon: logout.svg
         url: http://auth.localhost/logout
-  

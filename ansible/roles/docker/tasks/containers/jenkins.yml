@@ -1,0 +1,7 @@
+---
+- name: run jenkins docker-compose
+  docker_compose:
+    project_src: roles/docker/containers/jenkins
+    state: present
+
+
