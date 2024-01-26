@@ -14,13 +14,14 @@ http:
           - OPTIONS
         accessControlAllowHeaders: "*"
         accessControlAllowOriginList: 
-          - http://localhost:2400
+          # - http://localhost:2400
           - http://pva-web.localhost
         accessControlMaxAge: 100
         addVaryHeader: true
         accessControlAllowCredentials: true
     secureHeaders:
       headers:
+        contentSecurityPolicy: frame-ancestors 'self' localhost:2400 *.localhost:2400 pva-web.localhost *.pva-web.localhost
         # forceSTSHeader: true
         # stsIncludeSubdomains: true
         # stsPreload: true
@@ -31,6 +32,5 @@ http:
         # customFrameOptionsValue: sameorigin
         # browserXssFilter: true
         # contentTypeNosniff: true
-        contentSecurityPolicy: frame-ancestors 'self' localhost:2400 *.localhost:2400 pva-web.localhost *.pva-web.localhost
 
   

@@ -11,7 +11,9 @@ entryPoints:
     address: :80
     http:
       middlewares:
-        - secureHeaders@file
+        # - rateLimit@file
+        - corsMiddleware@file
+        # - secureHeaders@file
 
   websecure:
     address: :443
