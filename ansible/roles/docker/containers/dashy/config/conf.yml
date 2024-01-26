@@ -1,70 +1,95 @@
----
 appConfig:
-  theme: Nord-Forst
+  theme: default
   language: en
-
+  layout: auto
+  iconSize: medium
 pageInfo:
   title: Jemmal DEV LAB
-  footerText: ""
-
+  footerText: ''
 sections:
   - name: Docker
     icon: docker-moby.svg
     items:
-      - title: Portainer
+      - &ref_0
+        title: Portainer
         icon: portainer.svg
         url: http://portainer.localhost
         target: newtab
-
+        id: 0_600_portainer
+    filteredItems:
+      - *ref_0
   - name: Proxy
     icon: traefik.svg
     items:
-      - title: Traefik
+      - &ref_1
+        title: Traefik
         icon: traefik.svg
         url: http://traefik.localhost
         target: newtab
-
+        id: 0_546_traefik
+    filteredItems:
+      - *ref_1
   - name: Monitoring
-    icon:
+    icon: null
     items:
-      - title: Grafana
+      - &ref_2
+        title: Grafana
         icon: grafana.svg
         url: http://grafana.localhost
         target: newtab
-      - title: Prometheus
+        id: 0_1062_grafana
+      - &ref_3
+        title: Prometheus
         icon: prometheus.svg
         url: http://prometheus.localhost
         target: newtab
-
+        id: 1_1062_prometheus
+    filteredItems:
+      - *ref_2
+      - *ref_3
   - name: CI / CD
     icon: ci-cd.png
     items:
-      - title: Jenkins
+      - &ref_4
+        title: Jenkins
         icon: jenkins.svg
         url: http://jenkins.localhost
         target: newtab
-
+        id: 0_386_jenkins
+    filteredItems:
+      - *ref_4
   - name: ANCFCC
     icon: logo-ancfcc.png
     items:
-      - title: PVA
+      - &ref_5
+        title: PVA
         icon: logo-ancfcc.png
-        url: http://pva.localhost
+        url: http://pva-web.localhost
         target: newtab
-
-      - title: GEOSERVER
+        id: 0_414_pva
+      - &ref_6
+        title: GEOSERVER
         icon: geoserver.png
-        url: http://geoserver.localhost/geoserver
+        url: http://pva-geoserver.localhost/geoserver
         target: newtab
-
-      - title: Keycloak
+        id: 1_414_geoserver
+      - &ref_7
+        title: Keycloak
         icon: keycloak.svg
-        url: http://kc-pva.localhost
+        url: http://pva-kc.localhost
         target: newtab
-
+        id: 2_414_keycloak
+    filteredItems:
+      - *ref_5
+      - *ref_6
+      - *ref_7
   - name: Authelia
     icon: authelia.svg
     items:
-      - title: Logout
+      - &ref_8
+        title: Logout
         icon: logout.svg
         url: http://auth.localhost/logout
+        id: 0_813_logout
+    filteredItems:
+      - *ref_8

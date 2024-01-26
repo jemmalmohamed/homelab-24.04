@@ -1,33 +1,36 @@
-# Dynamic configuration
 http:
   middlewares:
+    rateLimit:
+      rateLimit:
+        average: 200 # Requests per second
+        burst: 300
+    corsMiddleware:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        accessControlAllowHeaders: "*"
+        accessControlAllowOriginList: 
+          - http://localhost:2400
+          - http://pva-web.localhost
+        accessControlMaxAge: 100
+        addVaryHeader: true
+        accessControlAllowCredentials: true
     secureHeaders:
       headers:
-        forceSTSHeader: false
-        stsIncludeSubdomains: false
+        # forceSTSHeader: true
+        # stsIncludeSubdomains: true
         # stsPreload: true
         # stsSeconds: 31536000
         # sslRedirect: true
-        framedeny: true
+        # framedeny: true
         # referrerPolicy: same-origin
-        accessControlMaxAge: 12
-        addVaryHeader: true
-        # customFrameOptionsValue: SAMEORIGIN
+        # customFrameOptionsValue: sameorigin
         # browserXssFilter: true
         # contentTypeNosniff: true
-        contentSecurityPolicy:  frame-ancestors 'self' localhost:4200
-        isDevelopment: true
-        accessControlAllowCredentials: true
-        accessControlAllowMethods:
-          - OPTIONS
-          - POST
-          - GET
-          - PUT
-          - DELETE
-        accessControlAllowHeaders:
-          - "Content-Type"
-          - "Cache-control"
-        accessControlAllowOriginList:
-          - http://localhost:4200
+        contentSecurityPolicy: frame-ancestors 'self' localhost:2400 *.localhost:2400 pva-web.localhost *.pva-web.localhost
 
   
