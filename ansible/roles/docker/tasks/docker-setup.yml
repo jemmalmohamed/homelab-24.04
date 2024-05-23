@@ -41,13 +41,7 @@
   pip:
     name: docker-compose
 
-- name: Create Docker network
-  docker_network:
-    name: "{{ network }}"
-    state: present
-    driver: bridge
-    ipam_config:
-      - subnet: "{{ subnet }}"
+
 
 - name: Modify Docker service file
   lineinfile:
@@ -64,3 +58,11 @@
     name: docker
     state: restarted
     enabled: yes
+
+- name: Create Docker network
+  docker_network:
+    name: "{{ network }}"
+    state: present
+    driver: bridge
+    ipam_config:
+      - subnet: "{{ subnet }}"

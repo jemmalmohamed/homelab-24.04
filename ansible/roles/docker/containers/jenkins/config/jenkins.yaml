@@ -95,9 +95,6 @@ security:
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
 unclassified:
-  locale:
-    systemLocale: en
-    ignoreAcceptLanguage: true
   buildDiscarders:
     configuredBuildDiscarders:
       - "jobBuildDiscarder"
