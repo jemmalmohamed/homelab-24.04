@@ -5,7 +5,7 @@ services:
     image: lissy93/dashy
     container_name: dashy
     volumes:
-      - ./config/conf.yml:/app/public/conf.yml
+      # - ./config/conf.yml:/app/public/conf.yml
       - ./icons:/app/public/item-icons/
      # Set any environmental variables
     environment:
