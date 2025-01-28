@@ -1,11 +1,11 @@
 ---
-- name: run prometheus-grafana docker-compose
-  docker_compose:
+- name: run prometheus-grafana docker compose
+  community.docker.docker_compose:
     project_src: roles/docker/containers/prometheus-grafana
     state: present
 
-- name: run exporters docker-compose
-  docker_compose:
+- name: run exporters docker compose
+  community.docker.docker_compose:
     project_src: roles/docker/containers/prometheus-grafana/exporters
     state: present
  

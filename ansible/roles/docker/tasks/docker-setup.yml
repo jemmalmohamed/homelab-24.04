@@ -28,20 +28,17 @@
       - docker-ce-cli
       - containerd.io
       - docker-buildx-plugin
-      - docker-scan-plugin
       - docker-compose-plugin
     update_cache: yes
 
-- name: install docker sdk
+- name: Install required Python packages
   apt:
-    name: python3-docker
-    update_cache: yes
+    name:
+      - python3-docker
+      - python3-compose
+    state: present
 
-- name: Install docker-compose Python package
-  pip:
-    name: docker-compose
-
-
+ 
 
 - name: Modify Docker service file
   lineinfile:

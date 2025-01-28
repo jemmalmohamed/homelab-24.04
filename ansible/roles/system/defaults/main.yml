@@ -1,12 +1,12 @@
 username: jemmal
-password: admin
+password: jemmal
 packages:
   - vim
   - git
   - nano
   - fail2ban
   - python3-pip
-  - openjdk-17-jdk
+  - openjdk-23-jdk
   - maven
 
 shell: /bin/bash

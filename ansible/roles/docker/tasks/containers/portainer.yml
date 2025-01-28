@@ -1,6 +1,6 @@
 ---
-- name: run portainer docker-compose
-  docker_compose:
+- name: run portainer docker compose
+  community.docker.docker_compose:
     project_src: roles/docker/containers/portainer
     state: present
 
