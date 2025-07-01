@@ -1,7 +1,0 @@
----
-- name: run jenkins docker compose
-  community.docker.docker_compose:
-    project_src: roles/docker/containers/jenkins
-    state: present
-
-

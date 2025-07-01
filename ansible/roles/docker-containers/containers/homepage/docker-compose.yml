@@ -1,0 +1,28 @@
+---
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    volumes:
+      - ./config:/app/config
+      - ./icons:/app/icons
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Set any environmental variables
+    environment:
+      # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
+      - PUID=1000
+      - PGID=1000
+    # Specify restart policy
+    restart: unless-stopped
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.entrypoints=web"
+      - "traefik.http.routers.homepage.rule=Host(`lab.localhost`)"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

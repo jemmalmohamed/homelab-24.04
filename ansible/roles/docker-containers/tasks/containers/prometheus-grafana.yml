@@ -1,0 +1,23 @@
+---
+- name: Remove prometheus-grafana with volumes
+  community.docker.docker_compose:
+    project_src: ./roles/docker-containers/containers/prometheus-grafana
+    state: absent
+    remove_volumes: "{{ remove_docker_volumes }}"
+
+- name: Remove exporters with volumes
+  community.docker.docker_compose:
+    project_src: ./roles/docker-containers/containers/prometheus-grafana/exporters
+    state: absent
+    remove_volumes: "{{ remove_docker_volumes }}"
+
+- name: run prometheus-grafana docker compose
+  community.docker.docker_compose:
+    project_src: ./roles/docker-containers/containers/prometheus-grafana
+    state: present
+
+- name: run exporters docker compose
+  community.docker.docker_compose:
+    project_src: ./roles/docker-containers/containers/prometheus-grafana/exporters
+    state: present
+ 

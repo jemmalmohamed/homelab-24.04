@@ -1,0 +1,13 @@
+---
+- name: Remove portainer with volumes
+  community.docker.docker_compose:
+    project_src: ./roles/docker-containers/containers/portainer
+    state: absent
+    remove_volumes: "{{ remove_docker_volumes }}"
+
+- name: run portainer docker compose
+  community.docker.docker_compose:
+    project_src: ./roles/docker-containers/containers/portainer
+    state: present
+
+

@@ -1,0 +1,40 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Apps:
+    - Pva keycloak:
+        href: http://pva-kc.localhost
+        icon: keycloak.png
+        description: PVA Keycloak homepage
+    - Pva DEV:
+        href: http://localhost:2400
+        description: PVA Admin homepage
+- proxies:
+    - Traefik:
+        href: http://traefik.localhost
+        icon: traefik.png
+        description: traefik homepage
+
+- DevOps:
+    - Jenkins:
+        href: http://jenkins.localhost
+        icon: jenkins.png
+        description: jenkins homepage 
+- Management:
+    - Portainer:
+        href: http://portainer.localhost
+        icon: portainer.png
+        description: portainer homepage 
+      
+- Monitoring:
+    - Prometheus:
+        href: https://prometheus.localhost
+        description: prometheus homepage
+        icon: prometheus.png
+        
+    - Grafana:
+        href: http://grafana.localhost
+        description: grafana homepage
+        icon: grafana.png
+ 

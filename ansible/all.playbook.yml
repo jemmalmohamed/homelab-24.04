@@ -2,5 +2,6 @@
 - hosts: local
   become: yes
   roles:
-    - system
-    - docker
+    - role: system-install
+    - role: docker-install
+    - role: docker-containers

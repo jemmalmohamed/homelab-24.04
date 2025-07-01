@@ -1,0 +1,51 @@
+- name: Create download directory
+  file:
+    path: "/tmp/oracle_jdk"
+    state: directory
+    mode: "0755"
+
+- name: Create JVM directory
+  file:
+    path: "/usr/java"
+    state: directory
+    mode: "0755"
+
+- name: Download Oracle JDK 23
+  get_url:
+    url: "https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz"
+    dest: "/tmp/oracle_jdk/jdk-23_linux-x64_bin.tar.gz"
+    headers:
+      Cookie: "oraclelicense=accept-securebackup-cookie"
+    mode: "0644"
+
+- name: Extract Oracle JDK 23
+  unarchive:
+    src: "/tmp/oracle_jdk/jdk-23_linux-x64_bin.tar.gz"
+    dest: "/usr/java/"
+    remote_src: true
+    creates: "/usr/java/jdk-23"
+    list_files: yes
+  register: jdk_extract
+
+- name: Debug extracted files
+  debug:
+    var: jdk_extract.files[0]
+    verbosity: 2
+
+- name: Get JDK base directory
+  set_fact:
+    jdk_base_dir: "/usr/java/{{ jdk_extract.files[0].split('/')[0] }}"
+
+- name: Set up alternatives for java
+  alternatives:
+    name: java
+    link: /usr/bin/java
+    path: "{{ jdk_base_dir }}/bin/java"
+    priority: 1
+
+- name: Set up alternatives for javac
+  alternatives:
+    name: javac
+    link: /usr/bin/javac
+    path: "{{ jdk_base_dir }}/bin/javac"
+    priority: 1

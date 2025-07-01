@@ -1,0 +1,23 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks
+
+- Cloud Services:
+
+  - Cloudflare:
+    - icon: cloudflare.png
+      href: https://dash.cloudflare.com
+  - Contabo:
+    - icon: contabo.png
+      href: https://my.contabo.com
+  
+
+- Developer:
+    - Github:
+        - abbr: GH
+          href: https://github.com/jemmalmohamed
+
+- Entertainment:
+    - YouTube:
+        - abbr: YT
+          href: https://youtube.com/

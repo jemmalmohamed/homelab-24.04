@@ -1,0 +1,170 @@
+[2025-01-30T13:16:22.194Z] info: docker.yaml was copied to the config folder
+[2025-01-30T13:16:22.196Z] info: services.yaml was copied to the config folder
+[2025-01-30T13:16:22.197Z] info: bookmarks.yaml was copied to the config folder
+[2025-01-30T13:16:22.197Z] info: widgets.yaml was copied to the config folder
+[2025-01-30T13:16:22.198Z] info: custom.css was copied to the config folder
+[2025-01-30T13:16:22.199Z] info: custom.js was copied to the config folder
+[2025-01-30T13:16:22.291Z] info: kubernetes.yaml was copied to the config folder
+[2025-01-30T13:26:23.308Z] error: end of the stream or a document separator is expected (12:1)
+
+  9 |       href: https://dash.cloudf ...
+ 10 |   
+ 11 | 
+ 12 | - Developer:
+------^
+ 13 |     - Github:
+ 14 |         - abbr: GH
+[2025-01-30T13:26:23.334Z] error: <index> YAMLException: end of the stream or a document separator is expected (12:1)
+
+  9 |       href: https://dash.cloudf ...
+ 10 |   
+ 11 | 
+ 12 | - Developer:
+------^
+ 13 |     - Github:
+ 14 |         - abbr: GH
+    at generateError (file:///app/node_modules/.pnpm/js-yaml@4.1.0/node_modules/js-yaml/dist/js-yaml.mjs:1273:10)
+    at throwError (file:///app/node_modules/.pnpm/js-yaml@4.1.0/node_modules/js-yaml/dist/js-yaml.mjs:1277:9)
+    at readDocument (file:///app/node_modules/.pnpm/js-yaml@4.1.0/node_modules/js-yaml/dist/js-yaml.mjs:2735:5)
+    at loadDocuments (file:///app/node_modules/.pnpm/js-yaml@4.1.0/node_modules/js-yaml/dist/js-yaml.mjs:2778:5)
+    at Object.load$1 [as load] (file:///app/node_modules/.pnpm/js-yaml@4.1.0/node_modules/js-yaml/dist/js-yaml.mjs:2804:19)
+    at bookmarksResponse (/app/.next/server/pages/index.js:3755:69)
+    at async getStaticProps (/app/.next/server/pages/index.js:3262:23)
+    at async Object.renderToHTML (/app/node_modules/.pnpm/next@12.3.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/render.js:386:20)
+    at async doRender (/app/node_modules/.pnpm/next@12.3.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/base-server.js:687:38)
+    at async cacheEntry.responseCache.get.isManualRevalidate.isManualRevalidate (/app/node_modules/.pnpm/next@12.3.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/base-server.js:796:28)
+[2025-01-30T13:26:23.432Z] error: end of the stream or a document separator is expected (12:1)
+
+  9 |       href: https://dash.cloudf ...
+ 10 |   
+ 11 | 
+ 12 | - Developer:
+------^
+ 13 |     - Github:
+ 14 |         - abbr: GH
+[2025-01-30T13:30:20.566Z] error: <httpProxy> Error calling https://portainer-demo-1.srv-demo-1.home.clcreative.de/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:30:20.583Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo ENOTFOUND portainer-demo-1.srv-demo-1.home.clcreative.de
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer-demo-1.srv-demo-1.home.clcreative.de'
+  }
+]
+[2025-01-30T13:30:20.585Z] error: <credentialedProxyHandler> HTTP Error 500 calling https://portainer-demo-1.srv-demo-1.home.clcreative.de/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:31:33.742Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:31:33.742Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:31:33.743Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:31:33.895Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:31:33.896Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:31:33.896Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:31:50.728Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:31:50.729Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:31:50.730Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:33:03.147Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:33:03.148Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:33:03.148Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:33:03.272Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:33:03.273Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:33:03.273Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:33:30.262Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:33:30.263Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:33:30.263Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:33:38.159Z] error: <httpProxy> Error calling http://portainer.localhost/api/endpoints/2/docker/containers/json...
+[2025-01-30T13:33:38.159Z] error: <httpProxy> [
+  500,
+  Error: getaddrinfo EAI_AGAIN portainer.localhost
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'portainer.localhost'
+  }
+]
+[2025-01-30T13:33:38.159Z] error: <credentialedProxyHandler> HTTP Error 500 calling http://portainer.localhost/api/endpoints/2/docker/containers/json?all=1
+[2025-01-30T13:37:50.918Z] error: Failed to load services.yaml, please check for errors
+[2025-01-30T13:37:50.919Z] error: YAMLException: end of the stream or a document separator is expected (11:1)
+
+  8 |       href: http://traefik.loca ...
+  9 |       description: traefik homepage
+ 10 | 
+ 11 | - Management:
+------^
+ 12 |     - Portainer:
+ 13 |         href: http://portainer. ...
+[2025-01-30T13:37:50.929Z] error: Failed to load services.yaml, please check for errors
+[2025-01-30T13:37:50.929Z] error: YAMLException: end of the stream or a document separator is expected (11:1)
+
+  8 |       href: http://traefik.loca ...
+  9 |       description: traefik homepage
+ 10 | 
+ 11 | - Management:
+------^
+ 12 |     - Portainer:
+ 13 |         href: http://portainer. ...
+[2025-01-30T13:37:51.065Z] error: Failed to load services.yaml, please check for errors
+[2025-01-30T13:37:51.065Z] error: YAMLException: end of the stream or a document separator is expected (11:1)
+
+  8 |       href: http://traefik.loca ...
+  9 |       description: traefik homepage
+ 10 | 
+ 11 | - Management:
+------^
+ 12 |     - Portainer:
+ 13 |         href: http://portainer. ...

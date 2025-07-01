@@ -1,9 +1,0 @@
-# Docker
-- include_tasks: docker-setup.yml
-
-# Docker compose
-- include_tasks: ./containers/traefik.yml
-- include_tasks: ./containers/portainer.yml
-- include_tasks: ./containers/prometheus-grafana.yml
-- include_tasks: ./containers/dashy.yml
-- include_tasks: ./containers/jenkins.yml

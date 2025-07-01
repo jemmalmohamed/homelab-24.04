@@ -1,6 +1,0 @@
----
-- name: run traefik docker compose
-  community.docker.docker_compose:
-    project_src: ./roles/docker/containers/traefik
-    state: present
-     

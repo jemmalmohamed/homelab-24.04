@@ -1,0 +1,9 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+
+# The title of the homepage
+title: Jemmal's Lab
+providers:
+  openweathermap: openweathermapapikey
+  weatherapi: weatherapiapikey
