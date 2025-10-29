@@ -1,5 +1,5 @@
 # Use the official Jenkins image as a base
-FROM jenkins/jenkins:lts-jdk17
+FROM jenkins/jenkins:2.528.1-jdk21
 
 # Skip the setup wizard
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false

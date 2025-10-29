@@ -4,10 +4,14 @@
     project_src: ./roles/docker-containers/containers/jenkins
     state: absent
     remove_volumes: "{{ remove_docker_volumes }}"
+  tags:
+    - jenkins
 
 - name: run jenkins docker compose
   community.docker.docker_compose:
     project_src: ./roles/docker-containers/containers/jenkins
     state: present
+  tags:
+    - jenkins
 
 

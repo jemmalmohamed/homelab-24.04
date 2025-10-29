@@ -9,6 +9,12 @@
       - software-properties-common
     update_cache: yes
 
+- name: ensure apt keyrings directory exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
 - name: add docker gpg key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg

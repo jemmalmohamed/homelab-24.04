@@ -1,7 +1,4 @@
 jenkins:
-  agentProtocols:
-    - "JNLP4-connect"
-    - "Ping"
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
@@ -13,7 +10,6 @@ jenkins:
     - name: "built-in"
   markupFormatter: "plainText"
   mode: NORMAL
-  myViewsTabBar: "standard"
   nodeMonitors:
     - diskSpace:
         freeSpaceThreshold: "1GB"
@@ -52,17 +48,17 @@ jenkins:
   nodes:
     - permanent:
         name: "dev-host"
-        remoteFS: ${JENKINS_ROMETE_ROOT_DIR}
+        remoteFS: ${JENKINS_REMOTE_ROOT_DIR}
         launcher:
           inbound:
             workDirSettings:
-              disabled: true
+              disabled: false
               failIfWorkDirIsMissing: false
               internalDir: "remoting"
-              workDirPath: "/tmp"
+              workDirPath: ${JENKINS_REMOTE_ROOT_DIR}
   # - permanent:
-  #       name: "docker-hsot"
-  #       remoteFS: "/home/jemmal/jenkins"
+  #       name: "docker-host"
+  #       remoteFS: "/home/${JENKINS_AGENT_USER}/jenkins"
   #       numExecutors: 2
   #       labelString: "linux docker"
   #       launcher:

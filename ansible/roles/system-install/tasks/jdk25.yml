@@ -10,31 +10,38 @@
     state: directory
     mode: "0755"
 
-- name: Download Oracle JDK 23
+- name: Download Oracle JDK 25
   get_url:
-    url: "https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz"
-    dest: "/tmp/oracle_jdk/jdk-23_linux-x64_bin.tar.gz"
+    url: "https://download.oracle.com/java/25/latest/jdk-25_linux-x64_bin.tar.gz"
+    dest: "/tmp/oracle_jdk/jdk-25_linux-x64_bin.tar.gz"
     headers:
       Cookie: "oraclelicense=accept-securebackup-cookie"
     mode: "0644"
 
-- name: Extract Oracle JDK 23
+- name: Extract Oracle JDK 25
   unarchive:
-    src: "/tmp/oracle_jdk/jdk-23_linux-x64_bin.tar.gz"
+    src: "/tmp/oracle_jdk/jdk-25_linux-x64_bin.tar.gz"
     dest: "/usr/java/"
     remote_src: true
-    creates: "/usr/java/jdk-23"
     list_files: yes
   register: jdk_extract
 
 - name: Debug extracted files
   debug:
     var: jdk_extract.files[0]
-    verbosity: 2
 
 - name: Get JDK base directory
   set_fact:
     jdk_base_dir: "/usr/java/{{ jdk_extract.files[0].split('/')[0] }}"
+
+- name: Verify JDK installation
+  command: "{{ jdk_base_dir }}/bin/java -version"
+  register: java_version
+  changed_when: false
+
+- name: Display Java version
+  debug:
+    var: java_version.stderr_lines
 
 - name: Set up alternatives for java
   alternatives:

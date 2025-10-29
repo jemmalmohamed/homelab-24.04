@@ -1,6 +1,27 @@
 ---
-- include_tasks: ./containers/traefik.yml
-- include_tasks: ./containers/homepage.yml
-- include_tasks: ./containers/portainer.yml
-- include_tasks: ./containers/prometheus-grafana.yml
-- include_tasks: ./containers/jenkins.yml
+- name: Traefik stack
+  include_tasks: ./containers/traefik.yml
+  tags:
+    - traefik
+
+- name: Homepage stack
+  include_tasks: ./containers/homepage.yml
+  tags:
+    - homepage
+
+- name: Portainer stack
+  include_tasks: ./containers/portainer.yml
+  tags:
+    - portainer
+
+- name: Prometheus and Grafana stack
+  include_tasks: ./containers/prometheus-grafana.yml
+  tags:
+    - prometheus
+    - grafana
+    - monitoring
+
+- name: Jenkins stack
+  include_tasks: ./containers/jenkins.yml
+  tags:
+    - jenkins
