@@ -30,12 +30,14 @@ ansible-galaxy collection install -r ansible/requirements.yml
 
 ## 4) Exécuter les playbooks
 
+Sous WSL, si le dépôt est exécuté depuis `/mnt/d/...` ou un autre disque Windows monté, Ansible peut ignorer `ansible.cfg` parce que le dossier est world-writable. Dans ce cas, utilise toujours `-i inventory/hosts`.
+
 Sur une machine fraîche, suis exactement cette séquence :
 
 ```bash
 cd ansible
 ansible-galaxy collection install -r requirements.yml
-ansible-playbook all.playbook.yml -e "username=myuser"
+ansible-playbook -i inventory/hosts all.playbook.yml -e "username=myuser"
 newgrp docker
 docker ps
 ```
@@ -57,11 +59,11 @@ Exécuter depuis la racine du dépôt ou depuis le dossier `ansible/`.
 ```bash
 cd ansible
 # Paquets système et utilisateur
-ansible-playbook system-install.playbook.yml -e "username=myuser"
+ansible-playbook -i inventory/hosts system-install.playbook.yml -e "username=myuser"
 # Moteur Docker + réseau partagé (proxy)
-ansible-playbook docker-install.playbook.yml -e "username=myuser"
+ansible-playbook -i inventory/hosts docker-install.playbook.yml -e "username=myuser"
 # Conteneurs principaux (Traefik, Homepage, Portainer, Prometheus/Grafana, Jenkins)
-ansible-playbook docker-containers.playbook.yml -e "username=myuser"
+ansible-playbook -i inventory/hosts docker-containers.playbook.yml -e "username=myuser"
 ```
 
 Le `username` est obligatoire pour éviter toute dépendance au nom d'utilisateur de la distribution.
@@ -70,7 +72,7 @@ Tu peux aussi fournir un mot de passe explicitement si tu veux qu'Ansible le dé
 
 ```bash
 cd ansible
-ansible-playbook system-install.playbook.yml -e "username=myuser password=my-password"
+ansible-playbook -i inventory/hosts system-install.playbook.yml -e "username=myuser password=my-password"
 ```
 
 ## 5) Préparer l'environnement Jenkins (optionnel)
@@ -89,7 +91,7 @@ Ensuite, relance l'étape des conteneurs si nécessaire :
 
 ```bash
 cd ../../../../..
-ansible-playbook docker-containers.playbook.yml -e "username=myuser"
+ansible-playbook -i inventory/hosts docker-containers.playbook.yml -e "username=myuser"
 ```
 
 ## 6) Accéder aux services
@@ -113,6 +115,8 @@ Résultat attendu : les deux commandes `curl` doivent répondre sans erreur de c
 
 Si les `curl` répondent mais pas le navigateur, le problème vient de la résolution de nom locale, pas de Traefik.
 
+Le routage Traefik est dynamique : un nouveau service devient accessible dès qu'il est connecté au réseau `proxy` et qu'il définit ses labels `traefik.*`.
+
 Sous Ubuntu natif, ajoute si nécessaire les entrées dans `/etc/hosts`.
 
 Sous Windows + WSL, ajoute les entrées dans `C:\Windows\System32\drivers\etc\hosts`, par exemple :
@@ -134,6 +138,11 @@ Ensuite teste directement `http://traefik.localhost` puis `http://lab.localhost`
   - Vérifie que tu as bien exécuté `system-install` et `docker-install` avec le même `username`.
   - Ouvre une nouvelle session, ou exécute `newgrp docker`, car l'ajout au groupe `docker` n'est pas visible dans le shell déjà ouvert.
   - En attendant, `sudo docker ps` doit fonctionner.
+
+- Nouveau conteneur non accessible derrière Traefik
+  - Vérifie que le conteneur rejoint le réseau `proxy`.
+  - Vérifie la présence des labels `traefik.enable=true`, `traefik.http.routers.*` et `traefik.http.services.*`.
+  - Vérifie ensuite avec `docker logs traefik`.
 
 - Collection Docker manquante
   - Exécuter : `ansible-galaxy collection install -r ansible/requirements.yml`

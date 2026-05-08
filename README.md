@@ -1,38 +1,45 @@
 # Homelab Dev Local Ubuntu 24.04
 
-Infrastructure de dev local pour Ubuntu 24.04, basée sur Ansible et Docker.
+Stack homelab locale pour Ubuntu 24.04, installée avec Ansible et Docker.
 
-Le dépôt installe les paquets système utiles, configure Docker avec un réseau partagé, puis déploie une stack de services via Docker Compose : Traefik, Homepage, Portainer, Prometheus, Grafana et Jenkins.
+Le projet installe Docker, prépare un utilisateur Linux, puis démarre ces services :
 
-Le guide rapide en français est disponible dans [docs/quickstart.md](./docs/quickstart.md).
+- Homepage
+- Traefik
+- Portainer
+- Prometheus
+- Grafana
+- Jenkins
 
-## Objectif
+## Accès aux services
 
-Ce projet vise un usage homelab local pour le développement, pas une plateforme de production.
-
-Les choix actuels privilégient :
-
-- un bootstrap simple via Ansible
-- une stack locale accessible en `*.localhost`
-- une installation portable d'une distribution à l'autre
-- un utilisateur Linux explicite, passé à l'exécution des playbooks
-
-## Stack incluse
-
-### Rôles Ansible
-
-- `system-install` : installe les paquets système, prépare l'utilisateur du homelab et les dépendances de base
-- `docker-install` : installe Docker Engine, configure le listener local et crée le réseau `proxy`
-- `docker-containers` : déploie Traefik, Homepage, Portainer, Prometheus, Grafana et Jenkins
-
-### Services exposés
-
-- Traefik : `http://traefik.localhost`
 - Homepage : `http://lab.localhost`
+- Traefik : `http://traefik.localhost`
 - Portainer : `http://portainer.localhost`
 - Prometheus : `http://prometheus.localhost`
 - Grafana : `http://grafana.localhost`
 - Jenkins : `http://jenkins.localhost`
+
+## Installation
+
+Le guide recommandé est ici : [docs/quickstart.md](./docs/quickstart.md)
+
+Pour une machine fraîche, utilise cette séquence :
+
+```bash
+git clone https://github.com/jemmalmohamed/homelab-24.04.git
+cd homelab-24.04/ansible
+ansible-galaxy collection install -r requirements.yml
+ansible-playbook -i inventory/hosts all.playbook.yml -e "username=myuser"
+newgrp docker
+docker ps
+```
+
+Résultat attendu : `docker ps` doit afficher les conteneurs démarrés.
+
+Remplace `myuser` par ton utilisateur Linux.
+
+Pour les détails d'installation, les variantes manuelles et le dépannage pas à pas, utilise [docs/quickstart.md](./docs/quickstart.md).
 
 ## Prérequis
 
@@ -40,93 +47,32 @@ Les choix actuels privilégient :
 - accès `sudo`
 - Python 3
 - Ansible
-- accès Internet pour les paquets et images Docker
 
-Installation d'Ansible :
+Installation possible d'Ansible :
 
 ```bash
 sudo apt update
 sudo apt install -y ansible python3-pip
 ```
 
-## Démarrage rapide
-
-Cloner le dépôt :
-
-```bash
-git clone https://github.com/jemmalmohamed/homelab-24.04.git
-cd homelab-24.04
-```
-
-Sur une machine fraîche, suis directement cette séquence :
-
-```bash
-cd ansible
-ansible-galaxy collection install -r requirements.yml
-ansible-playbook all.playbook.yml -e "username=myuser"
-newgrp docker
-docker ps
-```
-
-Validation : `docker ps` doit afficher les conteneurs démarrés.
-
-Installer les collections Ansible requises :
-
-```bash
-ansible-galaxy collection install -r ansible/requirements.yml
-```
-
-Exécuter les playbooks :
-
-```bash
-cd ansible
-ansible-playbook system-install.playbook.yml -e "username=myuser"
-ansible-playbook docker-install.playbook.yml -e "username=myuser"
-ansible-playbook docker-containers.playbook.yml -e "username=myuser"
-```
-
-Le `username` est obligatoire pour éviter toute dépendance à un utilisateur par défaut propre à la distribution.
-
-Si tu veux aussi définir le mot de passe du compte créé par Ansible :
-
-```bash
-ansible-playbook system-install.playbook.yml -e "username=myuser password=my-password"
-```
-
 ## Jenkins
 
-Jenkins utilise Configuration as Code.
+Identifiants par défaut après une installation propre :
 
-- Compose : `ansible/roles/docker-containers/containers/jenkins/docker-compose.yml`
-- CasC : `ansible/roles/docker-containers/containers/jenkins/config/jenkins.yaml`
+- utilisateur : `admin`
+- mot de passe : `admin123`
 
-Le playbook `docker-containers` crée automatiquement `ansible/roles/docker-containers/containers/jenkins/.env` s'il manque, à partir de valeurs adaptées au dev local.
-
-Si tu veux personnaliser Jenkins avant le premier lancement :
-
-```bash
-cd ansible/roles/docker-containers/containers/jenkins
-cp .env.example .env
-```
-
-## Notes de fonctionnement
-
-- Docker écoute sur `127.0.0.1:4243` par défaut pour rester limité à un usage local
-- le réseau Docker partagé s'appelle `proxy`
-- Jenkins prépare son dossier agent sur l'hôte via Ansible
-- les artefacts locaux Jenkins comme `.env` ou `agent.jar` ne sont plus destinés à être versionnés
-
-## Structure utile
-
-- `ansible/` : playbooks, inventaire et rôles
-- `docs/quickstart.md` : guide rapide en français
-- `ansible/roles/docker-containers/containers/` : stacks Docker Compose par service
+Si Jenkins refuse ces identifiants, il réutilise probablement un volume déjà existant.
 
 ## Dépannage rapide
 
-- `docker ps` renvoie `permission denied` : relancer `system-install` puis `docker-install` avec le même `username`, puis ouvrir une nouvelle session ou exécuter `newgrp docker`
-- `traefik.localhost`, `lab.localhost` ou d'autres noms `*.localhost` ne répondent pas : tester `curl -H "Host: traefik.localhost" http://127.0.0.1/` puis `curl -H "Host: lab.localhost" http://127.0.0.1/`; si ça marche en `curl` mais pas dans le navigateur, le problème vient de la résolution de nom sur l'OS hôte
-- collection Docker manquante : `ansible-galaxy collection install -r ansible/requirements.yml`
-- réseau `proxy` absent : relancer `docker-install.playbook.yml`
-- listener Docker TCP inutile : désactiver le listener dans le rôle `docker-install`
-- Jenkins sans Docker CLI : utiliser un agent dédié ou étendre l'image Jenkins
+- Sous WSL avec un dépôt dans `/mnt/d/...`, utilise toujours `-i inventory/hosts` dans les commandes Ansible.
+- Si `docker ps` renvoie `permission denied`, ouvre une nouvelle session ou exécute `newgrp docker`.
+- Si `*.localhost` ne répond pas, teste d'abord avec `curl -H "Host: traefik.localhost" http://127.0.0.1/`.
+- Si le navigateur ne résout pas `*.localhost`, ajoute les entrées nécessaires dans le fichier hosts de l'OS hôte.
+
+## Notes
+
+- Le réseau Docker partagé s'appelle `proxy`.
+- Traefik découvre les services dynamiquement via les labels Docker.
+- Pour ajouter un nouveau service derrière Traefik, il doit rejoindre le réseau `proxy` et définir ses labels `traefik.*`.
