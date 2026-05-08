@@ -20,35 +20,6 @@ Le projet installe Docker, prépare un utilisateur Linux, puis démarre ces serv
 - Grafana : `http://grafana.localhost`
 - Jenkins : `http://jenkins.localhost`
 
-## Installation
-
-### Option WSL avec distro dédiée
-
-Pour créer une distro dédiée `Ubuntu-24.04-dev` limitée à `30GB` :
-
-```powershell
-wsl --install Ubuntu-24.04 --name Ubuntu-24.04-dev --location D:\WSL\Ubuntu-24.04-dev --no-launch
-wsl --manage Ubuntu-24.04-dev --resize 30GB
-wsl -d Ubuntu-24.04-dev
-```
-
-Dans cette distro, installe ensuite la stack avec la séquence ci-dessous.
-
-Pour une machine fraîche, utilise cette séquence :
-
-```bash
-git clone https://github.com/jemmalmohamed/homelab-24.04.git
-cd homelab-24.04/ansible
-ansible-galaxy collection install -r requirements.yml
-ansible-playbook -i inventory/hosts all.playbook.yml -e "username=myuser"
-newgrp docker
-docker ps
-```
-
-Résultat attendu : `docker ps` doit afficher les conteneurs démarrés.
-
-Remplace `myuser` par ton utilisateur Linux.
-
 ## Prérequis
 
 - Ubuntu 24.04
@@ -62,6 +33,40 @@ Installation possible d'Ansible :
 sudo apt update
 sudo apt install -y ansible python3-pip
 ```
+
+## Installation
+
+### Option WSL avec distro dédiée
+
+1. Créer une distro dédiée `Ubuntu-24.04-dev` limitée à `30GB` :
+
+```powershell
+wsl --install Ubuntu-24.04 --name Ubuntu-24.04-dev --location D:\WSL\Ubuntu-24.04-dev --no-launch
+wsl --manage Ubuntu-24.04-dev --resize 30GB
+wsl -d Ubuntu-24.04-dev
+```
+
+2. Dans cette distro, installer les prérequis :
+
+```bash
+sudo apt update
+sudo apt install -y ansible python3-pip git
+```
+
+3. Installer ensuite la stack :
+
+```bash
+git clone https://github.com/jemmalmohamed/homelab-24.04.git
+cd homelab-24.04/ansible
+ansible-galaxy collection install -r requirements.yml
+ansible-playbook -i inventory/hosts all.playbook.yml -e "username=myuser"
+newgrp docker
+docker ps
+```
+
+Résultat attendu : `docker ps` doit afficher les conteneurs démarrés.
+
+Remplace `myuser` par ton utilisateur Linux.
 
 ## Jenkins
 
