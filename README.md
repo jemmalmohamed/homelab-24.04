@@ -58,6 +58,18 @@ git clone https://github.com/jemmalmohamed/homelab-24.04.git
 cd homelab-24.04
 ```
 
+Sur une machine fraîche, suis directement cette séquence :
+
+```bash
+cd ansible
+ansible-galaxy collection install -r requirements.yml
+ansible-playbook all.playbook.yml -e "username=myuser"
+newgrp docker
+docker ps
+```
+
+Validation : `docker ps` doit afficher les conteneurs démarrés.
+
 Installer les collections Ansible requises :
 
 ```bash
@@ -112,6 +124,8 @@ cp .env.example .env
 
 ## Dépannage rapide
 
+- `docker ps` renvoie `permission denied` : relancer `system-install` puis `docker-install` avec le même `username`, puis ouvrir une nouvelle session ou exécuter `newgrp docker`
+- `traefik.localhost`, `lab.localhost` ou d'autres noms `*.localhost` ne répondent pas : tester `curl -H "Host: traefik.localhost" http://127.0.0.1/` puis `curl -H "Host: lab.localhost" http://127.0.0.1/`; si ça marche en `curl` mais pas dans le navigateur, le problème vient de la résolution de nom sur l'OS hôte
 - collection Docker manquante : `ansible-galaxy collection install -r ansible/requirements.yml`
 - réseau `proxy` absent : relancer `docker-install.playbook.yml`
 - listener Docker TCP inutile : désactiver le listener dans le rôle `docker-install`

@@ -37,6 +37,19 @@
       - docker-compose-plugin
     update_cache: yes
 
+- name: ensure docker group exists
+  group:
+    name: docker
+    state: present
+
+- name: ensure requested user can access docker without sudo
+  user:
+    name: "{{ username }}"
+    groups:
+      - docker
+    append: yes
+  when: username | default('') | length > 0
+
 - name: Install required Python packages
   apt:
     name:

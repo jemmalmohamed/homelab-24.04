@@ -30,6 +30,28 @@ ansible-galaxy collection install -r ansible/requirements.yml
 
 ## 4) Exécuter les playbooks
 
+Sur une machine fraîche, suis exactement cette séquence :
+
+```bash
+cd ansible
+ansible-galaxy collection install -r requirements.yml
+ansible-playbook all.playbook.yml -e "username=myuser"
+newgrp docker
+docker ps
+```
+
+Validation : `docker ps` doit afficher les conteneurs démarrés.
+
+Après reconnexion utilisateur, rejouer uniquement :
+
+```bash
+cd ansible
+newgrp docker
+docker ps
+```
+
+Les commandes ci-dessous servent uniquement à rejouer une étape précise.
+
 Exécuter depuis la racine du dépôt ou depuis le dossier `ansible/`.
 
 ```bash
@@ -67,21 +89,51 @@ Ensuite, relance l'étape des conteneurs si nécessaire :
 
 ```bash
 cd ../../../../..
-ansible-playbook docker-containers.playbook.yml
+ansible-playbook docker-containers.playbook.yml -e "username=myuser"
 ```
 
 ## 6) Accéder aux services
 
-- Traefik:  http://traefik.localhost
+- Traefik: http://traefik.localhost
 - Homepage: http://lab.localhost
 - Portainer: http://portainer.localhost
 - Prometheus: http://prometheus.localhost
-- Grafana:   http://grafana.localhost
-- Jenkins:   http://jenkins.localhost
+- Grafana: http://grafana.localhost
+- Jenkins: http://jenkins.localhost
 
-Si `*.localhost` ne se résout pas dans ton navigateur, ajoute des entrées dans `/etc/hosts` ou utilise un navigateur qui résout `*.localhost` vers `127.0.0.1`.
+Checklist minimale avant d'ouvrir le navigateur :
+
+```bash
+docker ps
+curl -H "Host: traefik.localhost" http://127.0.0.1/
+curl -H "Host: lab.localhost" http://127.0.0.1/
+```
+
+Résultat attendu : les deux commandes `curl` doivent répondre sans erreur de connexion.
+
+Si les `curl` répondent mais pas le navigateur, le problème vient de la résolution de nom locale, pas de Traefik.
+
+Sous Ubuntu natif, ajoute si nécessaire les entrées dans `/etc/hosts`.
+
+Sous Windows + WSL, ajoute les entrées dans `C:\Windows\System32\drivers\etc\hosts`, par exemple :
+
+```text
+127.0.0.1 traefik.localhost
+127.0.0.1 lab.localhost
+127.0.0.1 portainer.localhost
+127.0.0.1 prometheus.localhost
+127.0.0.1 grafana.localhost
+127.0.0.1 jenkins.localhost
+```
+
+Ensuite teste directement `http://traefik.localhost` puis `http://lab.localhost`.
 
 ## Dépannage
+
+- `docker ps` renvoie `permission denied` sur `/var/run/docker.sock`
+  - Vérifie que tu as bien exécuté `system-install` et `docker-install` avec le même `username`.
+  - Ouvre une nouvelle session, ou exécute `newgrp docker`, car l'ajout au groupe `docker` n'est pas visible dans le shell déjà ouvert.
+  - En attendant, `sudo docker ps` doit fonctionner.
 
 - Collection Docker manquante
   - Exécuter : `ansible-galaxy collection install -r ansible/requirements.yml`
