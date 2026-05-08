@@ -22,7 +22,17 @@ Le projet installe Docker, prépare un utilisateur Linux, puis démarre ces serv
 
 ## Installation
 
-Le guide recommandé est ici : [docs/quickstart.md](./docs/quickstart.md)
+### Option WSL avec distro dédiée
+
+Pour créer une distro dédiée `Ubuntu-24.04-dev` limitée à `30GB` :
+
+```powershell
+wsl --install Ubuntu-24.04 --name Ubuntu-24.04-dev --location D:\WSL\Ubuntu-24.04-dev --no-launch
+wsl --manage Ubuntu-24.04-dev --resize 30GB
+wsl -d Ubuntu-24.04-dev
+```
+
+Dans cette distro, installe ensuite la stack avec la séquence ci-dessous.
 
 Pour une machine fraîche, utilise cette séquence :
 
@@ -38,8 +48,6 @@ docker ps
 Résultat attendu : `docker ps` doit afficher les conteneurs démarrés.
 
 Remplace `myuser` par ton utilisateur Linux.
-
-Pour les détails d'installation, les variantes manuelles et le dépannage pas à pas, utilise [docs/quickstart.md](./docs/quickstart.md).
 
 ## Prérequis
 
