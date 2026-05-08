@@ -1,13 +1,13 @@
 ---
 - name: Remove homepage with volumes
   community.docker.docker_compose:
-    project_src: ./roles/docker-containers/containers/homepage
+    project_src: "{{ playbook_dir }}/roles/docker-containers/containers/homepage"
     state: absent
     remove_volumes: "{{ remove_docker_volumes }}"
 
 - name: run homepage docker compose
   community.docker.docker_compose:
-    project_src: ./roles/docker-containers/containers/homepage
+    project_src: "{{ playbook_dir }}/roles/docker-containers/containers/homepage"
     state: present
 
 

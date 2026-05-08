@@ -1,58 +1,118 @@
-Homelab 24.04
-Repo for setting up a local dev homelab on Ubuntu 24.04 using Ansible and Docker. It installs essentials, Docker (with a shared proxy network), and deploys core services via docker-compose: Traefik, Homepage, Portainer, Prometheus/Grafana (with exporters), and Jenkins.
+# Homelab Dev Local Ubuntu 24.04
 
-See also: docs/quickstart.md for a minimal step-by-step guide.
+Infrastructure de dev local pour Ubuntu 24.04, basée sur Ansible et Docker.
 
-Prerequisites
-- Ubuntu 24.04 host (tested locally)
-- Python 3 and Ansible installed on the host
-- Internet access to fetch packages and container images
+Le dépôt installe les paquets système utiles, configure Docker avec un réseau partagé, puis déploie une stack de services via Docker Compose : Traefik, Homepage, Portainer, Prometheus, Grafana et Jenkins.
 
-What's included
-- Ansible roles
-  - system-install: updates the system, installs common packages, and creates a sudo user
-  - docker-install: installs Docker Engine, configures a TCP socket, and creates a shared Docker network (proxy)
-  - docker-containers: launches Traefik, Homepage, Portainer, Prometheus/Grafana (+ exporters), and Jenkins
-- Docker network
-  - Name: proxy
-  - Subnet: 172.20.0.0/16 (configurable in role defaults)
+Le guide rapide en français est disponible dans [docs/quickstart.md](./docs/quickstart.md).
 
-Quick start
-1) Install the Ansible collection used by the Docker tasks:
+## Objectif
 
-	ansible-galaxy collection install -r ansible/requirements.yml
+Ce projet vise un usage homelab local pour le développement, pas une plateforme de production.
 
-2) Run the plays (from the repo root or the ansible folder):
+Les choix actuels privilégient :
 
-	cd ansible
-	ansible-playbook system-install.playbook.yml
-	ansible-playbook docker-install.playbook.yml
-	ansible-playbook docker-containers.playbook.yml
+- un bootstrap simple via Ansible
+- une stack locale accessible en `*.localhost`
+- une installation portable d'une distribution à l'autre
+- un utilisateur Linux explicite, passé à l'exécution des playbooks
 
-Inventory and config
-- Inventory: ansible/inventory/hosts (defaults to localhost via ansible.cfg)
-- Ansible config: ansible/ansible.cfg (inventory path, warning settings)
+## Stack incluse
 
-Service URLs (via Traefik on the proxy network)
-- Traefik dashboard: http://traefik.localhost
-- Homepage: http://lab.localhost
-- Portainer: http://portainer.localhost
-- Prometheus: http://prometheus.localhost
-- Grafana: http://grafana.localhost
-- Jenkins: http://jenkins.localhost
+### Rôles Ansible
 
-Jenkins configuration
-The Jenkins stack uses Configuration as Code (CASC):
-- Compose file: ansible/roles/docker-containers/containers/jenkins/docker-compose.yml
-- CASC: ansible/roles/docker-containers/containers/jenkins/config/jenkins.yaml
+- `system-install` : installe les paquets système, prépare l'utilisateur du homelab et les dépendances de base
+- `docker-install` : installe Docker Engine, configure le listener local et crée le réseau `proxy`
+- `docker-containers` : déploie Traefik, Homepage, Portainer, Prometheus, Grafana et Jenkins
 
-Prepare environment variables in the Jenkins folder:
+### Services exposés
 
-	cd ansible/roles/docker-containers/containers/jenkins
-	cp .env.example .env
-	# Edit .env to set JENKINS_IP_ADDRESS, JENKINS_PORT, credentials, etc.
+- Traefik : `http://traefik.localhost`
+- Homepage : `http://lab.localhost`
+- Portainer : `http://portainer.localhost`
+- Prometheus : `http://prometheus.localhost`
+- Grafana : `http://grafana.localhost`
+- Jenkins : `http://jenkins.localhost`
 
-Notes
-- The docker role creates /etc/apt/keyrings before adding the Docker GPG key, which avoids failures on fresh installs.
-- The community.docker collection is declared in the docker-containers playbook; install it once with the requirements file.
-- The proxy network must exist before starting the containers (the docker-install role creates it). If you run containers independently, ensure the network exists.
+## Prérequis
+
+- Ubuntu 24.04
+- accès `sudo`
+- Python 3
+- Ansible
+- accès Internet pour les paquets et images Docker
+
+Installation d'Ansible :
+
+```bash
+sudo apt update
+sudo apt install -y ansible python3-pip
+```
+
+## Démarrage rapide
+
+Cloner le dépôt :
+
+```bash
+git clone https://github.com/jemmalmohamed/homelab-24.04.git
+cd homelab-24.04
+```
+
+Installer les collections Ansible requises :
+
+```bash
+ansible-galaxy collection install -r ansible/requirements.yml
+```
+
+Exécuter les playbooks :
+
+```bash
+cd ansible
+ansible-playbook system-install.playbook.yml -e "username=myuser"
+ansible-playbook docker-install.playbook.yml -e "username=myuser"
+ansible-playbook docker-containers.playbook.yml -e "username=myuser"
+```
+
+Le `username` est obligatoire pour éviter toute dépendance à un utilisateur par défaut propre à la distribution.
+
+Si tu veux aussi définir le mot de passe du compte créé par Ansible :
+
+```bash
+ansible-playbook system-install.playbook.yml -e "username=myuser password=my-password"
+```
+
+## Jenkins
+
+Jenkins utilise Configuration as Code.
+
+- Compose : `ansible/roles/docker-containers/containers/jenkins/docker-compose.yml`
+- CasC : `ansible/roles/docker-containers/containers/jenkins/config/jenkins.yaml`
+
+Le playbook `docker-containers` crée automatiquement `ansible/roles/docker-containers/containers/jenkins/.env` s'il manque, à partir de valeurs adaptées au dev local.
+
+Si tu veux personnaliser Jenkins avant le premier lancement :
+
+```bash
+cd ansible/roles/docker-containers/containers/jenkins
+cp .env.example .env
+```
+
+## Notes de fonctionnement
+
+- Docker écoute sur `127.0.0.1:4243` par défaut pour rester limité à un usage local
+- le réseau Docker partagé s'appelle `proxy`
+- Jenkins prépare son dossier agent sur l'hôte via Ansible
+- les artefacts locaux Jenkins comme `.env` ou `agent.jar` ne sont plus destinés à être versionnés
+
+## Structure utile
+
+- `ansible/` : playbooks, inventaire et rôles
+- `docs/quickstart.md` : guide rapide en français
+- `ansible/roles/docker-containers/containers/` : stacks Docker Compose par service
+
+## Dépannage rapide
+
+- collection Docker manquante : `ansible-galaxy collection install -r ansible/requirements.yml`
+- réseau `proxy` absent : relancer `docker-install.playbook.yml`
+- listener Docker TCP inutile : désactiver le listener dans le rôle `docker-install`
+- Jenkins sans Docker CLI : utiliser un agent dédié ou étendre l'image Jenkins

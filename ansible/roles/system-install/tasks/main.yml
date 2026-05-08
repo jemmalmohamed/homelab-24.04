@@ -1,4 +1,10 @@
 ---
+- name: Validate required homelab user inputs
+  assert:
+    that:
+      - username | length > 0
+    fail_msg: "Pass a Linux username explicitly, for example: ansible-playbook system-install.playbook.yml -e 'username=myuser'"
+
 - include_tasks: essential.yml
 - include_tasks: user.yml
 - include_tasks: jdk25.yml

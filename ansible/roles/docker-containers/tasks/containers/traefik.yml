@@ -1,12 +1,12 @@
 ---
 - name: Remove traefik with volumes
   community.docker.docker_compose:
-    project_src: ./roles/docker-containers/containers/traefik
+    project_src: "{{ playbook_dir }}/roles/docker-containers/containers/traefik"
     state: absent
     remove_volumes: "{{ remove_docker_volumes }}"
 
 - name: run traefik docker compose
   community.docker.docker_compose:
-    project_src: ./roles/docker-containers/containers/traefik
+    project_src: "{{ playbook_dir }}/roles/docker-containers/containers/traefik"
     state: present
      

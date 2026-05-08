@@ -10,7 +10,7 @@
 - name: Ensure the non-root user is created
   user:
     name: "{{ username }}"
-    password: "{{ password | password_hash('sha512') }}"
+    password: "{{ (password | length > 0) | ternary(password | password_hash('sha512'), omit) }}"
     groups:
       - sudo
       - docker

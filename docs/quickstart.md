@@ -1,63 +1,76 @@
-# Homelab 24.04 - Quickstart
+# Homelab 24.04 - Guide rapide
 
-A minimal step-by-step guide to bring the stack up on Ubuntu 24.04.
+Guide minimal étape par étape pour démarrer la stack sur Ubuntu 24.04.
 
-## 1) Prerequisites
+## 1) Prérequis
 
-- Ubuntu 24.04 host
-- Sudo access
-- Python 3 and Ansible
+- Hôte Ubuntu 24.04
+- Accès `sudo`
+- Python 3 et Ansible
 
-Install Ansible (one option):
+Installation d'Ansible (une option possible) :
 
 ```bash
 sudo apt update
 sudo apt install -y ansible python3-pip
 ```
 
-## 2) Clone and enter the repo
+## 2) Cloner le dépôt et y entrer
 
 ```bash
 git clone https://github.com/jemmalmohamed/homelab-24.04.git
 cd homelab-24.04
 ```
 
-## 3) Install required Ansible collections
+## 3) Installer les collections Ansible requises
 
 ```bash
 ansible-galaxy collection install -r ansible/requirements.yml
 ```
 
-## 4) Run the playbooks
+## 4) Exécuter les playbooks
 
-Run from the repo root or the `ansible/` folder.
+Exécuter depuis la racine du dépôt ou depuis le dossier `ansible/`.
 
 ```bash
 cd ansible
-# System packages and user
-ansible-playbook system-install.playbook.yml
-# Docker engine + shared network (proxy)
-ansible-playbook docker-install.playbook.yml
-# Core containers (Traefik, Homepage, Portainer, Prometheus/Grafana, Jenkins)
-ansible-playbook docker-containers.playbook.yml
+# Paquets système et utilisateur
+ansible-playbook system-install.playbook.yml -e "username=myuser"
+# Moteur Docker + réseau partagé (proxy)
+ansible-playbook docker-install.playbook.yml -e "username=myuser"
+# Conteneurs principaux (Traefik, Homepage, Portainer, Prometheus/Grafana, Jenkins)
+ansible-playbook docker-containers.playbook.yml -e "username=myuser"
 ```
 
-## 5) Prepare Jenkins environment (once)
+Le `username` est obligatoire pour éviter toute dépendance au nom d'utilisateur de la distribution.
+
+Tu peux aussi fournir un mot de passe explicitement si tu veux qu'Ansible le définisse lors de la création du compte :
+
+```bash
+cd ansible
+ansible-playbook system-install.playbook.yml -e "username=myuser password=my-password"
+```
+
+## 5) Préparer l'environnement Jenkins (optionnel)
+
+Le playbook `docker-containers` crée automatiquement `roles/docker-containers/containers/jenkins/.env` s'il est absent. Le fichier généré utilise des valeurs par défaut adaptées au dev local.
+
+Crée-le manuellement seulement si tu veux surcharger ces valeurs avant le premier lancement :
 
 ```bash
 cd roles/docker-containers/containers/jenkins
 cp .env.example .env
-# Edit .env to set JENKINS_IP_ADDRESS within 172.20.0.0/16 and credentials
+# Modifier .env pour définir JENKINS_IP_ADDRESS dans 172.20.0.0/16 et les identifiants
 ```
 
-Then re-run the containers step if needed:
+Ensuite, relance l'étape des conteneurs si nécessaire :
 
 ```bash
 cd ../../../../..
 ansible-playbook docker-containers.playbook.yml
 ```
 
-## 6) Access services
+## 6) Accéder aux services
 
 - Traefik:  http://traefik.localhost
 - Homepage: http://lab.localhost
@@ -66,15 +79,15 @@ ansible-playbook docker-containers.playbook.yml
 - Grafana:   http://grafana.localhost
 - Jenkins:   http://jenkins.localhost
 
-If DNS for *.localhost is not resolving in your browser, add entries to `/etc/hosts` or use a browser that resolves `*.localhost` to 127.0.0.1.
+Si `*.localhost` ne se résout pas dans ton navigateur, ajoute des entrées dans `/etc/hosts` ou utilise un navigateur qui résout `*.localhost` vers `127.0.0.1`.
 
-## Troubleshooting
+## Dépannage
 
-- Missing Docker collection
-  - Run: `ansible-galaxy collection install -r ansible/requirements.yml`
-- Proxy network missing
-  - Ensure `docker-install` playbook completed; or create the `proxy` network manually.
-- Docker TCP 4243 exposure
-  - The daemon is configured to listen on `0.0.0.0:4243`. For local-only use, firewall or disable the TCP listener (ask me to harden it via systemd drop-in).
-- Jenkins can’t talk to Docker
-  - Controller image lacks docker CLI by default. Prefer dedicated build agents with Docker installed, or extend the image to include `docker` and group alignment.
+- Collection Docker manquante
+  - Exécuter : `ansible-galaxy collection install -r ansible/requirements.yml`
+- Réseau `proxy` manquant
+  - Vérifie que le playbook `docker-install` est bien terminé, ou crée le réseau `proxy` manuellement.
+- Exposition Docker TCP 4243
+  - Le daemon écoute sur `127.0.0.1:4243` pour un usage local. Si tu n'as pas besoin du listener TCP, désactive-le dans le rôle `docker-install`.
+- Jenkins ne communique pas avec Docker
+  - L'image du contrôleur n'inclut pas le CLI Docker par défaut. Préfère des agents de build dédiés avec Docker installé, ou étends l'image pour y ajouter `docker` et l'alignement de groupe.

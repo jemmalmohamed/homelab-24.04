@@ -1,7 +1,26 @@
 ---
+- name: Ensure Jenkins environment file exists
+  template:
+    src: jenkins.env.j2
+    dest: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins/.env"
+    mode: '0644'
+    force: false
+  tags:
+    - jenkins
+
+- name: Ensure Jenkins agent directory exists on host
+  file:
+    path: "{{ jenkins_remote_root_dir }}"
+    state: directory
+    owner: "{{ jenkins_agent_user }}"
+    group: "{{ jenkins_agent_user }}"
+    mode: '0755'
+  tags:
+    - jenkins
+
 - name: Remove jenkins with volumes
   community.docker.docker_compose:
-    project_src: ./roles/docker-containers/containers/jenkins
+    project_src: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins"
     state: absent
     remove_volumes: "{{ remove_docker_volumes }}"
   tags:
@@ -9,7 +28,7 @@
 
 - name: run jenkins docker compose
   community.docker.docker_compose:
-    project_src: ./roles/docker-containers/containers/jenkins
+    project_src: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins"
     state: present
   tags:
     - jenkins

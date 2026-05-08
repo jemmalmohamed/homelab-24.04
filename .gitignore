@@ -1,0 +1,5 @@
+*.jarcurl
+*.log
+.DS_Store
+**/.env
+**/agent.jar

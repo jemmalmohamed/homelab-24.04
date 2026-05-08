@@ -44,13 +44,20 @@
       - python3-compose
     state: present
 
- 
+- name: ensure docker systemd override directory exists
+  file:
+    path: "{{ docker_systemd_override_dir }}"
+    state: directory
+    mode: '0755'
 
-- name: Modify Docker service file
-  lineinfile:
-    path: /lib/systemd/system/docker.service
-    regexp: "^ExecStart="
-    line: "ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"
+- name: configure docker listeners for local development
+  copy:
+    dest: "{{ docker_systemd_override_dir }}/override.conf"
+    mode: '0644'
+    content: |
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/dockerd -H tcp://{{ docker_tcp_host }}:{{ docker_tcp_port }} -H unix:///var/run/docker.sock
 
 - name: Reload systemd daemon
   systemd:

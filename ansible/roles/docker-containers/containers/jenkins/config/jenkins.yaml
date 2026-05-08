@@ -123,7 +123,7 @@ unclassified:
   gitHubConfiguration:
     apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
-    hookUrl: "http://172.0.0.8:8080/github-webhook/"
+    hookUrl: "${JENKINS_URL}/github-webhook/"
   globalTimeOutConfiguration:
     operations:
       - "abortOperation"

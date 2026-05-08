@@ -1,4 +1,11 @@
 ---
+- name: Validate required homelab user inputs
+  assert:
+    that:
+      - username is defined
+      - username | length > 0
+    fail_msg: "Pass the Linux username explicitly, for example: ansible-playbook docker-containers.playbook.yml -e 'username=myuser'"
+
 - name: Traefik stack
   include_tasks: ./containers/traefik.yml
   tags:
