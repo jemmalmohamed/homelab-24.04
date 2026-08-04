@@ -59,7 +59,7 @@ sudo apt install -y ansible python3-pip git
 git clone https://github.com/your-username/homelab-24.04.git
 cd homelab-24.04/ansible
 ansible-galaxy collection install -r requirements.yml
-vi group_vars/local.yml
+nano group_vars/local.yml
 ansible-playbook -i inventory/hosts all.playbook.yml
 newgrp docker
 docker ps
@@ -68,6 +68,8 @@ docker ps
 Résultat attendu : `docker ps` doit afficher les conteneurs démarrés.
 
 Modifie d'abord [ansible/group_vars/local.yml](/home/jemmal/homelab-24.04/ansible/group_vars/local.yml) pour centraliser tes valeurs :
+
+Tu peux l'ouvrir avec `nano group_vars/local.yml`, puis enregistrer avec `Ctrl+O` et quitter avec `Ctrl+X`.
 
 - `username` : utilisateur Linux cible
 - `password` : mot de passe du compte Linux si tu veux en définir un à la création

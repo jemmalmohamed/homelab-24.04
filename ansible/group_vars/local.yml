@@ -1,5 +1,5 @@
 username: "jemmal"
-password: ""
+password: "jemmal"
 
 network: proxy
 subnet: "172.20.0.0/16"
@@ -13,4 +13,4 @@ jenkins_port: "8080"
 jenkins_public_url: "http://jenkins.localhost"
 jenkins_agent_port: "18080"
 jenkins_admin_id: "admin"
-jenkins_admin_password: "change-me-before-first-run"
+jenkins_admin_password: "admin123"
