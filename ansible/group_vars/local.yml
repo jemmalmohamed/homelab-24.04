@@ -1,0 +1,16 @@
+username: "jemmal"
+password: ""
+
+network: proxy
+subnet: "172.20.0.0/16"
+docker_tcp_host: "127.0.0.1"
+docker_tcp_port: 4243
+
+remove_docker_volumes: false
+
+jenkins_ip_address: "172.20.0.50"
+jenkins_port: "8080"
+jenkins_public_url: "http://jenkins.localhost"
+jenkins_agent_port: "18080"
+jenkins_admin_id: "admin"
+jenkins_admin_password: "change-me-before-first-run"

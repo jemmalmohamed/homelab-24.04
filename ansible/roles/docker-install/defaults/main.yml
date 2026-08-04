@@ -1,6 +1,6 @@
 network: proxy
 subnet: "172.20.0.0/16"
-username: "jemmal"
+username: ""
 docker_tcp_host: "127.0.0.1"
 docker_tcp_port: 4243
 docker_systemd_override_dir: /etc/systemd/system/docker.service.d

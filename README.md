@@ -59,14 +59,20 @@ sudo apt install -y ansible python3-pip git
 git clone https://github.com/your-username/homelab-24.04.git
 cd homelab-24.04/ansible
 ansible-galaxy collection install -r requirements.yml
-ansible-playbook -K -i inventory/hosts all.playbook.yml -e "username=myuser"
+vi group_vars/local.yml
+ansible-playbook -i inventory/hosts all.playbook.yml
 newgrp docker
 docker ps
 ```
 
 Résultat attendu : `docker ps` doit afficher les conteneurs démarrés.
 
-Remplace `myuser` par ton utilisateur Linux.
+Modifie d'abord [ansible/group_vars/local.yml](/home/jemmal/homelab-24.04/ansible/group_vars/local.yml) pour centraliser tes valeurs :
+
+- `username` : utilisateur Linux cible
+- `password` : mot de passe du compte Linux si tu veux en définir un à la création
+- `jenkins_admin_password` : mot de passe admin Jenkins
+- `network`, `subnet`, `docker_tcp_host`, `docker_tcp_port` : paramètres Docker
 
 ## Jenkins
 
@@ -83,6 +89,7 @@ Si Jenkins refuse ces identifiants, il réutilise probablement un volume déjà 
 
 - Sous WSL avec un dépôt dans `/mnt/d/...`, utilise toujours `-i inventory/hosts` dans les commandes Ansible.
 - Si Ansible échoue avec `sudo: a password is required`, relance avec `-K` ou configure `sudo` en `NOPASSWD` pour ton utilisateur.
+- Toutes les valeurs personnalisables du lab peuvent être centralisées dans [ansible/group_vars/local.yml](/home/jemmal/homelab-24.04/ansible/group_vars/local.yml).
 - Si `docker ps` renvoie `permission denied`, ouvre une nouvelle session ou exécute `newgrp docker`.
 - Si `*.localhost` ne répond pas, teste d'abord avec `curl -H "Host: traefik.localhost" http://127.0.0.1/`.
 - Si le navigateur ne résout pas `*.localhost`, ajoute les entrées nécessaires dans le fichier hosts de l'OS hôte.
