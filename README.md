@@ -23,7 +23,7 @@ Le projet installe Docker, prépare un utilisateur Linux, puis démarre ces serv
 ## Prérequis
 
 - Ubuntu 24.04
-- accès `sudo`
+- accès `sudo` avec mot de passe, ou configuration `NOPASSWD`
 - Python 3
 - Ansible
 
@@ -59,7 +59,7 @@ sudo apt install -y ansible python3-pip git
 git clone https://github.com/your-username/homelab-24.04.git
 cd homelab-24.04/ansible
 ansible-galaxy collection install -r requirements.yml
-ansible-playbook -i inventory/hosts all.playbook.yml -e "username=myuser"
+ansible-playbook -K -i inventory/hosts all.playbook.yml -e "username=myuser"
 newgrp docker
 docker ps
 ```
@@ -82,6 +82,7 @@ Si Jenkins refuse ces identifiants, il réutilise probablement un volume déjà 
 ## Dépannage rapide
 
 - Sous WSL avec un dépôt dans `/mnt/d/...`, utilise toujours `-i inventory/hosts` dans les commandes Ansible.
+- Si Ansible échoue avec `sudo: a password is required`, relance avec `-K` ou configure `sudo` en `NOPASSWD` pour ton utilisateur.
 - Si `docker ps` renvoie `permission denied`, ouvre une nouvelle session ou exécute `newgrp docker`.
 - Si `*.localhost` ne répond pas, teste d'abord avec `curl -H "Host: traefik.localhost" http://127.0.0.1/`.
 - Si le navigateur ne résout pas `*.localhost`, ajoute les entrées nécessaires dans le fichier hosts de l'OS hôte.

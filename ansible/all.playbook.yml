@@ -1,6 +1,10 @@
----
 - hosts: local
+  gather_facts: no
   become: yes
+  pre_tasks:
+    - name: Gather facts without privilege escalation
+      setup:
+      become: no
   roles:
     - role: system-install
     - role: docker-install
