@@ -3,7 +3,7 @@
 # https://gethomepage.dev/configs/settings/
 
 # The title of the homepage
-title: Jemmal's Lab
+title: Homelab Dashboard
 providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey

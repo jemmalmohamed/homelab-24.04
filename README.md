@@ -56,7 +56,7 @@ sudo apt install -y ansible python3-pip git
 3. Installer ensuite la stack :
 
 ```bash
-git clone https://github.com/jemmalmohamed/homelab-24.04.git
+git clone https://github.com/your-username/homelab-24.04.git
 cd homelab-24.04/ansible
 ansible-galaxy collection install -r requirements.yml
 ansible-playbook -i inventory/hosts all.playbook.yml -e "username=myuser"
@@ -70,10 +70,12 @@ Remplace `myuser` par ton utilisateur Linux.
 
 ## Jenkins
 
-Identifiants par défaut après une installation propre :
+Identifiants initiaux après une installation propre :
 
 - utilisateur : `admin`
-- mot de passe : `admin123`
+- mot de passe : la valeur de `jenkins_admin_password`
+
+Le dépôt utilise désormais un placeholder (`change-me-before-first-run`). Remplace cette valeur avant le premier démarrage.
 
 Si Jenkins refuse ces identifiants, il réutilise probablement un volume déjà existant.
 

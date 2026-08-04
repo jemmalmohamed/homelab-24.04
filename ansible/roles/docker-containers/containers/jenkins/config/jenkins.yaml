@@ -3,8 +3,7 @@ jenkins:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
   crumbIssuer:
-    standard:
-      excludeClientIPFromCrumb: false
+    standard: {}
   disableRememberMe: false
   labelAtoms:
     - name: "built-in"
@@ -34,7 +33,7 @@ jenkins:
           # - "timezone"
           # - "experimentalFlags"
           # - mailer:
-          #     emailAddress: "jemmalmohamed@gmail.com"
+          #     emailAddress: "admin@example.com"
           # - "apiToken"
   slaveAgentPort: 50000
   updateCenter:

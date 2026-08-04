@@ -8,6 +8,46 @@
   tags:
     - jenkins
 
+- name: Ensure Jenkins public URL exists in environment file
+  lineinfile:
+    path: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins/.env"
+    regexp: '^JENKINS_URL='
+    line: "JENKINS_URL=http://{{ jenkins_ip_address }}:{{ jenkins_port }}"
+    create: true
+    mode: '0644'
+  tags:
+    - jenkins
+
+- name: Ensure Jenkins agent port exists in environment file
+  lineinfile:
+    path: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins/.env"
+    regexp: '^JENKINS_AGENT_PORT='
+    line: "JENKINS_AGENT_PORT={{ jenkins_agent_port }}"
+    insertafter: '^JENKINS_URL='
+    create: true
+    mode: '0644'
+  tags:
+    - jenkins
+
+- name: Ensure Jenkins agent URL exists in environment file
+  lineinfile:
+    path: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins/.env"
+    regexp: '^JENKINS_AGENT_URL='
+    line: "JENKINS_AGENT_URL={{ jenkins_agent_url }}"
+    insertafter: '^JENKINS_AGENT_PORT='
+    create: true
+    mode: '0644'
+  tags:
+    - jenkins
+
+- name: Render Jenkins Unix agent helper script
+  template:
+    src: jenkins-agent-unix.sh.j2
+    dest: "{{ playbook_dir }}/roles/docker-containers/containers/jenkins/connect-agent-unix.sh"
+    mode: '0755'
+  tags:
+    - jenkins
+
 - name: Ensure Jenkins agent directory exists on host
   file:
     path: "{{ jenkins_remote_root_dir }}"

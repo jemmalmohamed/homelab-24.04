@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+agent_secret="${1:-}"
+agent_name="${2:-dev-host}"
+work_dir="${3:-{{ jenkins_remote_root_dir }}}"
+
+if [ -z "$agent_secret" ]; then
+  echo "Usage: $0 <agent-secret> [agent-name] [work-dir]" >&2
+  exit 1
+fi
+
+curl -fsSLO "{{ jenkins_agent_url }}/jnlpJars/agent.jar"
+java -jar agent.jar \
+  -url "{{ jenkins_agent_url }}/" \
+  -secret "$agent_secret" \
+  -name "$agent_name" \
+  -webSocket \
+  -workDir "$work_dir"
