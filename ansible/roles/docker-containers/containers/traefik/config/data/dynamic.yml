@@ -11,12 +11,13 @@ http:
           - POST
           - PUT
           - DELETE
+          - PATCH
           - OPTIONS
         accessControlAllowHeaders: "*"
-        accessControlAllowOriginList: 
-          # - http://localhost:2400
-          - http://pva-web.localhost
-        accessControlMaxAge: 100
+        accessControlAllowOriginList:
+          - "http://ormt-web.localhost"
+          - "http://localhost:3000"
+        accessControlMaxAge: 3600
         addVaryHeader: true
         accessControlAllowCredentials: true
     secureHeaders:
